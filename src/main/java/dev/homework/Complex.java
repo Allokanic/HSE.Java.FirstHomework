@@ -1,36 +1,41 @@
 package dev.homework;
 
-public class Complex extends Number
+/**
+ * Class for working with complex numbers
+ * This class provides 4 basic arithmetic operations with real numbers and complex numbers: +, -, *, /;
+ * @see <a href="https://byjus.com/maths/algebraic-operations-on-complex-numbers/#Addition">
+ *        <cite>Arithmetic operations with complex numbers</cite></a>
+ */
+public final class Complex
 {
+    /**
+     * holds a real part of complex number
+     */
     private double real;
+    /**
+     * holds an image part of complex number
+     */
     private double image;
 
+    /**
+     * Construct the complex number from any real number, image part will be 0
+     * @param value can be any primitive wrapper
+     */
     public Complex(Number value) {
         real = Double.parseDouble(value.toString());
     }
 
+    /**
+     * Construct the full complex number from two real coefficients
+     * @param real real part of the number
+     * @param image image part of the number
+     */
     public Complex(Number real, Number image) {
         this.real = Double.parseDouble(real.toString());
         this.image = Double.parseDouble(image.toString());
     }
 
     public Complex() {}
-
-    public int intValue() {
-        return (int)real;
-    }
-
-    public long longValue() {
-        return (long)real;
-    }
-
-    public float floatValue() {
-        return (float)real;
-    }
-
-    public double doubleValue() {
-        return real;
-    }
 
     public double getReal() {
         return real;

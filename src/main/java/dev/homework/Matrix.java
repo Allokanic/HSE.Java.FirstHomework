@@ -1,10 +1,25 @@
 package dev.homework;
 
+/**
+ * Class provides basic operations with matrices,
+ * such as addition, multiplication, transposing and finding determinant if exists.
+ * This class works only with Complex numbers, which can be built from any primitive types.
+ * You can use redefined method toString, which prints matrix in a beautiful way.
+ */
 public class Matrix {
     private final Complex[][] matrix;
+    /**
+     * the number of lines
+     */
     private final int len;
+    /**
+     * the number of columns
+     */
     private final int wid;
 
+    /**
+     * Constructor from preliminary built matrix with checking matrix rules
+     */
     public Matrix(Complex[][] matrix) {
         if (matrix.length == 0 || matrix[0].length == 0) {
             throw new IllegalArgumentException("Matrix len or wid should not be equal to 0");
@@ -18,10 +33,15 @@ public class Matrix {
         }
         this.matrix = new Complex[matrix.length][matrix[0].length];
         for (int i = 0; i < len; ++i) {
-            if (wid >= 0) System.arraycopy(matrix[i], 0, this.matrix[i], 0, wid);
+            System.arraycopy(matrix[i], 0, this.matrix[i], 0, wid);
         }
     }
 
+    /**
+     * Constructor of an empty matrix with specific dimensions
+     * @param len the number of lines
+     * @param wid the number of columns
+     */
     public Matrix(int len, int wid) {
         matrix = new Complex[len][wid];
         for (int i = 0; i < len; ++i) {
@@ -33,20 +53,35 @@ public class Matrix {
         this.wid = wid;
     }
 
+    /**
+     * Copy constructor
+     * @param another will be duplicated, so this object will have separate data
+     */
     public Matrix(Matrix another) {
         this.len = another.len;
         this.wid = another.wid;
         this.matrix = another.matrix.clone();
     }
 
+    /**
+     * @return the number of lines in matrix
+     */
     public int getLen() {
         return len;
     }
 
+    /**
+     * @return the number of columns in matrix
+     */
     public int getWid() {
         return wid;
     }
 
+    /**
+     * Basic getter with exception checking
+     * @param i line index
+     * @param j column index
+     */
     public Complex get(int i, int j) {
         if (i < len && j < wid && i > -1 && j > -1) {
             return matrix[i][j];
@@ -55,6 +90,12 @@ public class Matrix {
         }
     }
 
+    /**
+     * Basic setter for real numbers with exception checking
+     * @param i line index
+     * @param j column index
+     * @param value real number
+     */
     public void set(int i, int j, double value) {
         if (i < len && j < wid && i > -1 && j > -1) {
             matrix[i][j].setReal(value);
@@ -63,6 +104,12 @@ public class Matrix {
         }
     }
 
+    /**
+     * Basic setter for complex numbers with exception checking
+     * @param i line index
+     * @param j column index
+     * @param value complex number
+     */
     public void set(int i, int j, Complex value) {
         if (i < len && j < wid && i > -1 && j > -1) {
             matrix[i][j] = value;
@@ -75,6 +122,10 @@ public class Matrix {
         return !(another == null) && this.len == another.len && this.wid == another.wid;
     }
 
+    /**
+     * @param another matrix with the same dimensions, otherwise throws IllegalArgumentException
+     * @return new matrix
+     */
     public Matrix add(Matrix another) {
         if (!checkSizeForEquality(another)) {
             throw new IllegalArgumentException("An attempt to add different dimensions matrices");
@@ -82,12 +133,18 @@ public class Matrix {
         Matrix result = new Matrix(this);
         for (int i = 0; i < len; ++i) {
             for (int j = 0; j < wid; ++j) {
-                result.matrix[i][j].add(another.matrix[i][j]);
+                result.matrix[i][j] = result.matrix[i][j].add(another.matrix[i][j]);
             }
         }
         return result;
     }
 
+    /**
+     * @param another matrix which stick to the rules, otherwise throws IllegalArgumentException
+     * @return new matrix with the number of lines equal to first matrix len and the number of columns equal to another matrix wid
+     * @see <a href="https://byjus.com/maths/matrix-multiplication/#how-to-multiply">
+     *      <cite>Matrix multiplication algorithm</cite></a>
+     */
     public Matrix multiply(Matrix another) {
         if (wid != another.len) {
             throw new IllegalArgumentException("You can't multiply these matrices");
@@ -105,6 +162,9 @@ public class Matrix {
         return result;
     }
 
+    /**
+     * @return new object with inverted matrix
+     */
     public Matrix transpose() {
         Matrix result = new Matrix(wid, len);
         for (int i = 0; i < len; ++i) {
@@ -115,6 +175,12 @@ public class Matrix {
         return result;
     }
 
+    /**
+     * Evaluates a determinant by Gaussian elimination
+     * @see <a href="https://en.wikipedia.org/wiki/Gaussian_elimination">
+     *     <cite>Gaussian elimination</cite></a>
+     * @return Complex value of matrix determinant if exists, otherwise throws RuntimeException
+     */
     public Complex getDeterminant() {
         if (len != wid) {
             throw new RuntimeException("The determinant of this matrix can't be found");
