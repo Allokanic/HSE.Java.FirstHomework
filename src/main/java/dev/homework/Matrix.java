@@ -1,5 +1,8 @@
 package dev.homework;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 /**
  * Class provides basic operations with matrices,
  * such as addition, multiplication, transposing and finding determinant if exists.
@@ -247,5 +250,20 @@ public class Matrix {
             stringBuilder.append("\n");
         }
         return stringBuilder.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Matrix matrix1 = (Matrix) o;
+        return len == matrix1.len && wid == matrix1.wid && Arrays.deepEquals(matrix, matrix1.matrix);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(len, wid);
+        result = 31 * result + Arrays.deepHashCode(matrix);
+        return result;
     }
 }

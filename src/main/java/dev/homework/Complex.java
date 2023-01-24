@@ -1,5 +1,7 @@
 package dev.homework;
 
+import java.util.Objects;
+
 /**
  * Class for working with complex numbers
  * This class provides 4 basic arithmetic operations with real numbers and complex numbers: +, -, *, /;
@@ -94,5 +96,18 @@ public final class Complex
 
     public String toString() {
         return real + (image >= 0 ? "+" : "-") + image + "i";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Complex complex = (Complex) o;
+        return Double.compare(complex.real, real) == 0 && Double.compare(complex.image, image) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(real, image);
     }
 }
