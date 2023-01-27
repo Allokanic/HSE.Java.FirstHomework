@@ -5,11 +5,11 @@ import java.util.Objects;
 /**
  * Class for working with complex numbers
  * This class provides 4 basic arithmetic operations with real numbers and complex numbers: +, -, *, /;
+ *
  * @see <a href="https://byjus.com/maths/algebraic-operations-on-complex-numbers/#Addition">
- *        <cite>Arithmetic operations with complex numbers</cite></a>
+ * <cite>Arithmetic operations with complex numbers</cite></a>
  */
-public final class Complex
-{
+public final class Complex {
     /**
      * holds a real part of complex number
      */
@@ -21,6 +21,7 @@ public final class Complex
 
     /**
      * Construct the complex number from any real number, image part will be 0
+     *
      * @param value can be any primitive wrapper
      */
     public Complex(Number value) {
@@ -29,7 +30,8 @@ public final class Complex
 
     /**
      * Construct the full complex number from two real coefficients
-     * @param real real part of the number
+     *
+     * @param real  real part of the number
      * @param image image part of the number
      */
     public Complex(Number real, Number image) {
@@ -37,7 +39,8 @@ public final class Complex
         this.image = Double.parseDouble(image.toString());
     }
 
-    public Complex() {}
+    public Complex() {
+    }
 
     public double getReal() {
         return real;
@@ -92,6 +95,34 @@ public final class Complex
         return new Complex(
                 (this.real * value.real + this.image * value.image) / commonDivider,
                 (this.image * value.real - this.real * value.image) / commonDivider);
+    }
+
+    public String trig() {
+        return module() + " * (cos(" + arg() + ") + sin(" + arg() + ") * i)";
+    }
+
+    private double arg() {
+        if (real > 0) {
+            return Math.atan(image / real);
+        } else if (real < 0) {
+            if (image >= 0) {
+                return Math.PI + Math.atan(image / real);
+            } else {
+                return -Math.PI + Math.atan(image / real);
+            }
+        } else {
+            if (image > 0) {
+                return Math.PI / 2;
+            } else if (image < 0) {
+                return Math.PI / 2;
+            } else {
+                return 0;
+            }
+        }
+    }
+
+    private double module() {
+        return Math.sqrt(real * real + image * image);
     }
 
     public String toString() {
