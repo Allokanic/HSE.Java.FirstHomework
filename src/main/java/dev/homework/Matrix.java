@@ -46,6 +46,9 @@ public class Matrix {
      * @param wid the number of columns
      */
     public Matrix(int len, int wid) {
+        if (len == 0 || wid == 0) {
+            throw new IllegalArgumentException("dimensions of the matrix can't be null");
+        }
         matrix = new Complex[len][wid];
         for (int i = 0; i < len; ++i) {
             for (int j = 0; j < wid; ++j) {
